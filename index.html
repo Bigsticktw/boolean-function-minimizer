@@ -199,6 +199,26 @@
         
         .btn-secondary:hover {
             background: #545b62;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+        }
+        
+        .button-group {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .button-group .btn {
+            flex: 1;
+            min-width: 140px;
+        }
+        
+        .button-group .btn-primary {
+            margin: 0;
+            width: auto;
         }
         
         .btn-info {
@@ -564,9 +584,17 @@
                 </div>
                 
                 <!-- 執行按鈕 -->
-                <button class="btn btn-primary" onclick="runMultiOutputOptimization()">
-                    🚀 執行多輸出最佳化
-                </button>
+                <div class="button-group" style="display: flex; gap: 10px; align-items: center;">
+                    <button class="btn btn-primary" onclick="runMultiOutputOptimization()">
+                        🚀 執行多輸出最佳化
+                    </button>
+                    <button class="btn btn-secondary" onclick="shareResults()" title="分享結果">
+                        📤 分享結果
+                    </button>
+                    <button class="btn btn-secondary" onclick="copyResultsToClipboard()" title="複製結果">
+                        📋 複製結果
+                    </button>
+                </div>
                 
                 <!-- 範例區域 -->
                 <div class="example-section">
@@ -1742,8 +1770,176 @@ F2 = Σm(0,1,4,6,7,8,12) + Σd(2,9)
             return minterms.sort((a, b) => a - b);
         }
         
+        // URL 參數處理和分享功能
+        function initializeFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // 處理模式切換
+            const mode = urlParams.get('mode');
+            if (mode === 'pi' || mode === 'minterm') {
+                updateInputMode(mode);
+            } else {
+                updateInputMode('pi'); // 默認為 PI 模式
+            }
+            
+            // 處理分享的內容
+            const sharedTitle = urlParams.get('title');
+            const sharedText = urlParams.get('text');
+            const sharedUrl = urlParams.get('url');
+            
+            if (sharedText) {
+                // 嘗試解析分享的文本作為函數定義
+                try {
+                    const outputFunctionsTextarea = document.getElementById('outputFunctions');
+                    if (outputFunctionsTextarea && sharedText.includes(':')) {
+                        outputFunctionsTextarea.value = sharedText;
+                        alert('已載入分享的函數定義！');
+                    }
+                } catch (error) {
+                    console.log('無法解析分享的內容:', error);
+                }
+            }
+        }
+        
+        // 分享當前結果
+        function shareResults() {
+            if (!navigator.share) {
+                // 降級到複製到剪貼板
+                copyResultsToClipboard();
+                return;
+            }
+            
+            const resultArea = document.getElementById('resultArea');
+            if (!resultArea || !resultArea.innerHTML.trim() || resultArea.innerHTML.includes('等待輸入')) {
+                alert('請先執行 Patrick Method 以獲得結果！');
+                return;
+            }
+            
+            // 收集當前的函數定義
+            let shareText = '';
+            const outputFunctionsTextarea = document.getElementById('outputFunctions');
+            if (outputFunctionsTextarea && outputFunctionsTextarea.value.trim()) {
+                shareText = outputFunctionsTextarea.value.trim();
+            }
+            
+            // 如果沒有函數定義，嘗試從結果中提取
+            if (!shareText) {
+                const resultText = resultArea.textContent || resultArea.innerText;
+                const lines = resultText.split('\n').filter(line => line.trim());
+                shareText = lines.slice(0, 10).join('\n'); // 取前10行
+            }
+            
+            navigator.share({
+                title: '布林函數最小化結果',
+                text: shareText,
+                url: window.location.href
+            }).catch(error => {
+                console.log('分享失敗:', error);
+                copyResultsToClipboard();
+            });
+        }
+        
+        // 複製結果到剪貼板（降級方案）
+        function copyResultsToClipboard() {
+            const resultArea = document.getElementById('resultArea');
+            if (!resultArea || !resultArea.innerHTML.trim() || resultArea.innerHTML.includes('等待輸入')) {
+                alert('請先執行 Patrick Method 以獲得結果！');
+                return;
+            }
+            
+            const resultText = resultArea.textContent || resultArea.innerText;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(resultText).then(() => {
+                    alert('結果已複製到剪貼板！');
+                }).catch(error => {
+                    console.log('複製失敗:', error);
+                    fallbackCopyToClipboard(resultText);
+                });
+            } else {
+                fallbackCopyToClipboard(resultText);
+            }
+        }
+        
+        // 降級複製方案
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                alert('結果已複製到剪貼板！');
+            } catch (error) {
+                console.log('複製失敗:', error);
+                alert('無法複製到剪貼板，請手動選擇並複製結果。');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // 處理檔案拖放和開啟
+        function setupFileHandling() {
+            const dropZone = document.body;
+            
+            // 防止預設的拖放行為
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropZone.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            // 處理檔案拖放
+            dropZone.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                
+                if (files.length > 0) {
+                    handleFiles(files);
+                }
+            }
+            
+            function handleFiles(files) {
+                Array.from(files).forEach(file => {
+                    if (file.type === 'text/plain' || file.type === 'application/json' || file.name.endsWith('.txt')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const content = e.target.result;
+                            loadContentFromFile(content);
+                        };
+                        reader.readAsText(file);
+                    }
+                });
+            }
+            
+            function loadContentFromFile(content) {
+                try {
+                    // 嘗試載入為函數定義
+                    const outputFunctionsTextarea = document.getElementById('outputFunctions');
+                    if (outputFunctionsTextarea) {
+                        outputFunctionsTextarea.value = content;
+                        alert('已載入檔案內容！');
+                    }
+                } catch (error) {
+                    console.log('載入檔案失敗:', error);
+                    alert('無法載入檔案內容。');
+                }
+            }
+        }
+        
         // 初始化界面
-        updateInputMode('pi'); // 默認為 PI 模式
+        initializeFromURL();
+        setupFileHandling();
     </script>
 </body>
 </html> 

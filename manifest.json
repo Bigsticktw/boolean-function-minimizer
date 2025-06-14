@@ -6,11 +6,19 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
   "background_color": "#ffffff",
   "theme_color": "#667eea",
   "orientation": "portrait-primary",
   "dir": "ltr",
   "lang": "zh-TW",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
   "icons": [
     {
       "src": "android/android-launchericon-48-48.png",
@@ -53,6 +61,59 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "text/plain": [".txt"],
+        "application/json": [".json"]
+      },
+      "icons": [
+        {
+          "src": "android/android-launchericon-96-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "shortcuts": [
+    {
+      "name": "PI模式輸入",
+      "short_name": "PI Mode",
+      "description": "直接進入PI模式進行布林函數輸入",
+      "url": "./?mode=pi",
+      "icons": [
+        {
+          "src": "android/android-launchericon-96-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Minterm模式輸入",
+      "short_name": "Minterm Mode", 
+      "description": "直接進入Minterm模式進行布林函數輸入",
+      "url": "./?mode=minterm",
+      "icons": [
+        {
+          "src": "android/android-launchericon-96-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
     }
   ],
   "categories": [
