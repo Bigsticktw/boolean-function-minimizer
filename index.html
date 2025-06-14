@@ -782,17 +782,20 @@
         
         /* 超強制修復 PI 模式問題 - 使用更高優先級 */
         @media (max-width: 768px) {
-            /* 針對 PI 模式底部按鈕的超強制修復 */
-            div[style*="display: flex"][style*="gap: 10px"] {
+            /* 針對 PI 模式底部按鈕的超強制修復 - 修正選擇器 */
+            #piInputContainer > div[style*="display: flex"][style*="gap: 10px"][style*="margin-top: 15px"] {
+                display: flex !important;
                 flex-direction: column !important;
                 align-items: stretch !important;
                 gap: 8px !important;
+                margin-top: 15px !important;
             }
             
-            div[style*="display: flex"][style*="gap: 10px"] button {
+            #piInputContainer > div[style*="display: flex"] button {
                 width: 100% !important;
                 margin: 0 !important;
                 flex: none !important;
+                box-sizing: border-box !important;
             }
             
             /* 針對所有 PI 相關按鈕的超強制修復 */
@@ -806,6 +809,29 @@
                 white-space: nowrap !important;
                 overflow: hidden !important;
                 text-overflow: ellipsis !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* 最終保險 - 直接針對 piInputContainer 內的所有 flex 容器 */
+            #piInputContainer div[style*="display: flex"] {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+            
+            #piInputContainer div[style*="display: flex"] .btn {
+                width: 100% !important;
+                margin: 0 0 8px 0 !important;
+                flex: none !important;
+            }
+            
+            /* 768px 終極修復 - 直接針對三個具體按鈕 */
+            button[onclick="addFunctionPIGroup()"],
+            button[onclick="addPIToCurrentFunction()"],
+            button[onclick="generateFunctionDefinitions()"] {
+                width: 100% !important;
+                margin: 0 0 8px 0 !important;
+                display: block !important;
+                flex: none !important;
                 box-sizing: border-box !important;
             }
         }
@@ -888,6 +914,17 @@
                 width: 100% !important;
                 margin: 2px 0 !important;
                 flex: none !important;
+            }
+            
+            /* 終極修復 - 直接針對三個具體按鈕 */
+            button[onclick="addFunctionPIGroup()"],
+            button[onclick="addPIToCurrentFunction()"],
+            button[onclick="generateFunctionDefinitions()"] {
+                width: 100% !important;
+                margin: 0 0 8px 0 !important;
+                display: block !important;
+                flex: none !important;
+                box-sizing: border-box !important;
             }
         }
     </style>
