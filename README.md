@@ -3,7 +3,7 @@
 ## 📖 文件
 
 - [報告書](./報告書.md)
-- [測資](./邏輯電路專題 Patrick Method 測資.md)
+- [測資](./測資.md)
 
 ## 🌐 線上版本
 **🚀 立即使用：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)**
