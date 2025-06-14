@@ -1,27 +1,41 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+    <!-- 基本網頁設定 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>多輸出布林函數最小化工具</title>
     
-    <!-- PWA 支援 -->
+    <!-- PWA 支援設定 -->
     <meta name="theme-color" content="#2c3e50">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="多輸出最小化工具">
     
+    <!-- SEO 和網頁資訊設定 -->
     <meta name="description" content="專業的多輸出布林函數最小化工具，支援 Patrick Method 演算法">
     <meta name="keywords" content="Patrick Method, 邏輯最小化, 布爾代數, SOP, Prime Implicants, 多輸出">
     <meta name="author" content="Logic Circuit Final Project">
     
+    <!-- PWA 應用程式設定 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Boolean Minimizer">
+    <meta name="apple-mobile-web-app-title" content="Boolean Minimizer">
+    <meta name="msapplication-starturl" content="./index.html">
+    <link rel="icon" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+    
     <style>
+        /* 全域樣式重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
         
+        /* 主體樣式設定 */
         body {
             font-family: 'Microsoft JhengHei', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -618,48 +632,73 @@ F2 = Σm(0,1,4,6,7,8,12) + Σd(2,9)
     <!-- 載入核心算法 -->
     <script src="patrick-method-core.js"></script>
     
+    <!-- 註冊 Service Worker -->
     <script>
-        // 全域變數
-        let functionPICounter = 1; // 函數計數器
-        let piCounterByFunction = {}; // 每個函數的PI計數器
-        let currentSelectedFunction = 1; // 當前選中的函數
-        let functionCounter = 1; // Minterm模式的函數計數器
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+    
+    <script>
+        // ==================== 全域變數定義 ====================
+        let functionPICounter = 1;           // PI 模式下的函數計數器
+        let piCounterByFunction = {};        // 每個函數的 PI 計數器對應表
+        let currentSelectedFunction = 1;     // 當前選中的函數 ID
+        let functionCounter = 1;             // Minterm 模式下的函數計數器
         
-        // 輸入模式切換
+        // ==================== 輸入模式切換處理 ====================
+        // 監聽輸入模式選項的變化
         document.querySelectorAll('input[name="inputMode"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 updateInputMode(this.value);
             });
         });
         
-        // 更新輸入模式顯示
+        /**
+         * 更新輸入模式顯示
+         * 根據選擇的模式（PI 或 Minterm）切換對應的輸入界面
+         * @param {string} mode - 輸入模式 ('pi' 或 'minterm')
+         */
         function updateInputMode(mode) {
             const inputLabel = document.getElementById('inputLabel');
             const piContainer = document.getElementById('piInputContainer');
             const mintermContainer = document.getElementById('mintermInputContainer');
             
             if (mode === 'pi') {
+                // 切換到 PI 模式
                 inputLabel.textContent = '多函數 Prime Implicants';
                 piContainer.style.display = 'block';
                 mintermContainer.style.display = 'none';
                 
-                // 初始化PI輸入框
+                // 如果尚未初始化，則初始化 PI 輸入框
                 if (document.getElementById('multiplePIInputs').children.length === 0) {
                     initializeMultiplePIInputs();
                 }
             } else {
+                // 切換到 Minterm 模式
                 inputLabel.textContent = '多函數 Minterms';
                 piContainer.style.display = 'none';
                 mintermContainer.style.display = 'block';
                 
-                // 初始化Minterm輸入框
+                // 如果尚未初始化，則初始化 Minterm 輸入框
                 if (document.getElementById('functionInputs').children.length === 0) {
                     initializeFunctionInputs();
                 }
             }
         }
         
-        // 初始化多輸出 PI 輸入框
+        /**
+         * 初始化多輸出 PI 輸入框
+         * 清空現有內容並重置所有計數器，然後添加第一個函數組
+         */
         function initializeMultiplePIInputs() {
             const multiplePIInputs = document.getElementById('multiplePIInputs');
             multiplePIInputs.innerHTML = '';
@@ -669,11 +708,14 @@ F2 = Σm(0,1,4,6,7,8,12) + Σd(2,9)
             addFunctionPIGroup(); // 添加第一個函數組
         }
         
-        // 新增函數 PI 組
+        /**
+         * 新增函數 PI 組
+         * 創建一個新的函數組，包含標題、PI 輸入區域和控制按鈕
+         */
         function addFunctionPIGroup() {
             const multiplePIInputs = document.getElementById('multiplePIInputs');
             
-            // 計算當前應該的函數編號（從1開始，連續編號）
+            // 計算當前應該的函數編號（從 1 開始，連續編號）
             const currentFunctionCount = multiplePIInputs.children.length;
             const functionDisplayId = currentFunctionCount + 1;
             const functionId = functionPICounter++;
@@ -1020,32 +1062,38 @@ F2 = Σm(0,1,4,6,7,8,12) + Σd(2,9)
             }, 1000);
         }
         
-        // 執行Patrick Method算法
+        /**
+         * 執行 Patrick Method 演算法主函數
+         * 處理輸入資料並調用核心演算法進行最佳化
+         * @param {string} variables - 變數字串
+         * @param {Object} inputData - 輸入資料物件
+         * @param {string} inputMode - 輸入模式（'pi' 或 'minterm'）
+         */
         function executePatrickMethod(variables, inputData, inputMode) {
             const loadingArea = document.getElementById('loadingArea');
             const resultArea = document.getElementById('resultArea');
             
             try {
-                console.log('🚀 開始執行Patrick Method');
+                console.log('🚀 開始執行 Patrick Method');
                 console.log('變數:', variables);
                 console.log('輸入資料:', inputData);
                 console.log('輸入模式:', inputMode);
                 
-                // 解析變數
+                // 解析變數字串為陣列
                 const variableList = variables.split(',').map(v => v.trim());
                 const numVars = variableList.length;
                 
                 let mintermsByFunction = {};
                 
                 if (inputMode === 'pi') {
-                    // PI模式：需要使用輸出函數定義
+                    // PI 模式：需要使用輸出函數定義
                     if (inputData.outputFunctions && Object.keys(inputData.outputFunctions).length > 0) {
-                        // 使用輸出函數定義中的minterms
+                        // 使用輸出函數定義中的 minterms
                         Object.entries(inputData.outputFunctions).forEach(([funcName, funcData]) => {
                             mintermsByFunction[funcName] = funcData.minterms || [];
                         });
                     } else {
-                        // 如果沒有輸出函數定義，從PI計算minterms
+                        // 如果沒有輸出函數定義，從 PI 計算 minterms
                         Object.entries(inputData).forEach(([funcName, pis]) => {
                             if (funcName !== 'outputFunctions' && Array.isArray(pis)) {
                                 const minterms = new Set();
@@ -1123,15 +1171,20 @@ F2 = Σm(0,1,4,6,7,8,12) + Σd(2,9)
             }
         }
         
-        // 計算單個系統解的成本
+        /**
+         * 計算單個系統解決方案的成本
+         * 包括個別成本、共享成本和節省成本的計算
+         * @param {Object} systemSolution - 系統解決方案物件
+         * @returns {Object} 包含各種成本資訊的物件
+         */
         function calculateSolutionCosts(systemSolution) {
-            // 計算個別成本總和
+            // 計算個別成本總和（不考慮共享）
             let totalIndividualCost = 0;
             Object.values(systemSolution).forEach(solution => {
                 totalIndividualCost += solution.cost;
             });
 
-            // 統計PI使用次數
+            // 統計 Prime Implicants 使用次數
             const piUsageCount = new Map();
             Object.values(systemSolution).forEach(solution => {
                 solution.pis.forEach(pi => {
@@ -1140,19 +1193,19 @@ F2 = Σm(0,1,4,6,7,8,12) + Σd(2,9)
                 });
             });
 
-            // 計算重複PI的成本
+            // 計算重複 PI 的成本節省
             let duplicatedPICost = 0;
             piUsageCount.forEach((count, pattern) => {
                 if (count > 1) {
-                    // 從任一使用此PI的函數中獲取PI成本
+                    // 從任一使用此 PI 的函數中獲取 PI 成本
                     const piCost = Object.values(systemSolution)
                         .flatMap(sol => sol.pis)
                         .find(pi => pi.pattern === pattern)?.cost || 0;
                     duplicatedPICost += (count - 1) * piCost;
-                    console.log(`PI ${pattern} 使用${count}次，成本${piCost}，節省成本: ${(count-1) * piCost}`);
+                    console.log(`PI ${pattern} 使用 ${count} 次，成本 ${piCost}，節省成本: ${(count-1) * piCost}`);
                 }
             });
-            console.log(`總重複PI成本: ${duplicatedPICost}`);
+            console.log(`總重複 PI 成本: ${duplicatedPICost}`);
 
             const sharedCost = totalIndividualCost - duplicatedPICost;
             const savings = totalIndividualCost - sharedCost;
@@ -1164,7 +1217,12 @@ F2 = Σm(0,1,4,6,7,8,12) + Σd(2,9)
             };
         }
 
-        // 顯示Patrick Method結果
+        /**
+         * 顯示 Patrick Method 演算法結果
+         * 格式化並展示最佳化結果，包括解決方案和成本分析
+         * @param {Object} results - 演算法執行結果
+         * @param {Array} variables - 變數陣列
+         */
         function displayPatrickMethodResults(results, variables) {
             const resultArea = document.getElementById('resultArea');
             resultArea.classList.add('has-content');

@@ -4,6 +4,8 @@
 
 這是一個基於 **Patrick Method** 演算法的多輸出布林函數最小化工具，專為邏輯電路設計和布林代數最佳化而開發。該工具支援多種輸入格式，能夠自動找到最佳的邏輯表達式，並通過硬體共享最小化總體成本。
 
+**🚀 現已支援 PWA (Progressive Web App) 和 Android APK 部署！**
+
 ## ✨ 功能特色
 
 ### 🎯 核心功能
@@ -11,6 +13,13 @@
 - **Patrick Method 演算法**：實現完整的三階段最佳化流程
 - **硬體共享最佳化**：自動識別可共享的 Prime Implicants，降低硬體成本
 - **智能算法選擇**：根據問題規模自動選擇回溯搜索或窮舉搜索
+
+### 📱 PWA 功能
+- **離線使用**：安裝後可在無網路環境下使用
+- **原生體驗**：類似原生應用的使用體驗
+- **快速啟動**：從主畫面直接啟動，載入速度快
+- **自動更新**：應用更新時自動同步最新版本
+- **跨平台支援**：支援 Windows、macOS、Linux、Android、iOS
 
 ### 📊 輸入模式
 1. **Prime Implicants 模式**：直接輸入已知的 Prime Implicants
@@ -26,14 +35,33 @@
 
 ## 🚀 快速開始
 
-### 系統需求
-- 現代網頁瀏覽器（Chrome、Firefox、Safari、Edge）
-- 支援 JavaScript ES6+
+### 線上使用
+直接訪問：[https://your-username.github.io/boolean-function-minimizer](https://your-username.github.io/boolean-function-minimizer)
 
-### 安裝與運行
+### PWA 安裝
+1. **桌面瀏覽器**：
+   - 訪問網站後，點擊地址欄的「安裝」圖標
+   - 或點擊瀏覽器選單中的「安裝應用程式」
+
+2. **手機瀏覽器**：
+   - 訪問網站後，點擊「加入主畫面」
+   - 應用圖標將出現在主畫面上
+
+### Android APK 安裝
+1. 下載 APK 文件（從 GitHub Releases 或 PWA Builder 生成）
+2. 在 Android 設備上安裝 APK
+3. 享受原生應用體驗
+
+### 本地部署
 1. 下載項目文件到本地
 2. 用瀏覽器打開 `index.html`
 3. 開始使用！
+
+### 系統需求
+- **網頁版**：現代網頁瀏覽器（Chrome、Firefox、Safari、Edge）
+- **PWA版**：支援 PWA 的瀏覽器
+- **Android APK**：Android 5.0+ (API Level 21+)
+- **技術要求**：支援 JavaScript ES6+
 
 ## 📖 使用指南
 
@@ -113,6 +141,70 @@ F2 = x'y + xy'
 共享最佳化總成本: 18
 💡 節省成本: 6 (25.0%)
 ```
+
+## 🌐 部署指南
+
+### GitHub Pages 部署
+1. **創建 GitHub 倉庫**：
+   ```bash
+   # 創建新倉庫 boolean-function-minimizer
+   ```
+
+2. **上傳文件**：
+   - `index.html` - 主要網頁
+   - `patrick-method-core.js` - 核心算法
+   - `manifest.json` - PWA 配置
+   - `sw.js` - Service Worker
+   - `README.md` - 項目說明
+
+3. **啟用 GitHub Pages**：
+   - 進入倉庫設置 → Pages
+   - 選擇 Source: Deploy from a branch
+   - 選擇 Branch: main
+   - 點擊 Save
+
+4. **訪問網站**：
+   - URL: `https://your-username.github.io/boolean-function-minimizer`
+
+### PWA Builder APK 生成
+1. **訪問 PWA Builder**：
+   - 前往 [https://www.pwabuilder.com](https://www.pwabuilder.com)
+
+2. **輸入網站 URL**：
+   - 輸入你的 GitHub Pages URL
+   - 點擊「Start」
+
+3. **驗證 PWA**：
+   - 系統會自動檢查 PWA 配置
+   - 確保所有必需項目都通過驗證
+
+4. **生成 APK**：
+   - 選擇「Android」平台
+   - 點擊「Generate Package」
+   - 下載生成的 APK 文件
+
+### 其他部署選項
+- **Netlify**：拖拽文件夾即可部署
+- **Vercel**：連接 GitHub 自動部署
+- **Firebase Hosting**：Google 的靜態網站託管
+
+## 📱 PWA 技術特色
+
+### Service Worker 功能
+- **離線緩存**：核心文件自動緩存，離線可用
+- **更新策略**：Cache First 策略，確保快速載入
+- **版本控制**：自動管理緩存版本，支援熱更新
+
+### Manifest 配置
+- **應用資訊**：完整的應用名稱、描述、圖標
+- **顯示模式**：Standalone 模式，提供原生應用體驗
+- **主題配色**：統一的視覺風格
+- **啟動配置**：優化的啟動體驗
+
+### 跨平台兼容性
+- **桌面系統**：Windows、macOS、Linux
+- **移動系統**：Android、iOS
+- **瀏覽器**：Chrome、Firefox、Safari、Edge
 
 ## 🔧 技術實現
 
@@ -214,8 +306,15 @@ F2 = x'y + xy'
 final/
 ├── index.html              # 主要網頁界面
 ├── patrick-method-core.js   # 核心算法實現
+├── manifest.json           # PWA 配置文件
+├── sw.js                   # Service Worker
 └── README.md               # 項目文檔
 ```
+
+### PWA 文件說明
+- **manifest.json**：定義 PWA 的基本資訊、圖標、顯示模式等
+- **sw.js**：Service Worker 腳本，處理離線緩存和更新策略
+- **圖標系統**：內嵌 SVG 圖標，支援多種尺寸和用途
 
 ### 核心類別
 - **PatrickMethod**：基礎 Patrick Method 算法類
@@ -234,6 +333,11 @@ final/
 - **成本預估**：提前估算成本，避免無效搜索
 - **記憶化**：緩存中間結果，避免重複計算
 
+### PWA 性能優化
+- **快速載入**：Service Worker 緩存策略
+- **離線優先**：核心功能離線可用
+- **漸進增強**：基礎功能優先，增強功能漸進載入
+
 ### 處理能力
 - **小規模問題**（PI ≤ 20）：使用窮舉搜索，保證最佳解
 - **大規模問題**（PI > 20）：使用回溯搜索，快速找到近似最佳解
@@ -246,12 +350,30 @@ final/
 - 掌握多輸出邏輯最小化技術
 - 學習硬體共享最佳化策略
 - 體驗算法設計和最佳化過程
+- **新增**：了解 PWA 技術和現代 Web 應用開發
 
 ### 適用課程
 - 數位邏輯設計
 - 計算機組織與結構
 - 算法設計與分析
 - 邏輯電路最佳化
+- **新增**：Web 應用開發、移動應用開發
+
+## 🔄 更新日誌
+
+### v1.1.0 (2024年12月)
+- ✅ 新增 PWA 支援
+- ✅ 新增 Service Worker 離線功能
+- ✅ 新增 Android APK 生成支援
+- ✅ 優化 manifest.json 配置
+- ✅ 新增部署指南和使用說明
+
+### v1.0.0 (2024年12月)
+- ✅ 完整的 Patrick Method 三階段實現
+- ✅ 多輸出布林函數最小化
+- ✅ 硬體共享成本計算
+- ✅ 響應式網頁界面
+- ✅ 多種輸入模式支援
 
 ## 🤝 貢獻指南
 
@@ -260,6 +382,7 @@ final/
 1. 詳細描述問題現象
 2. 提供輸入資料和預期結果
 3. 包含瀏覽器和系統資訊
+4. **新增**：說明是網頁版還是 PWA/APK 版本
 
 ### 功能建議
 歡迎提出新功能建議：
@@ -267,6 +390,7 @@ final/
 - 算法效能改進
 - 使用者界面優化
 - 教學功能增強
+- **新增**：PWA 功能增強、移動端優化
 
 ## 📄 授權資訊
 
@@ -279,13 +403,20 @@ final/
 - Quine, W. V. (1952). "The Problem of Simplifying Truth Functions"
 - McCluskey, E. J. (1956). "Minimization of Boolean Functions"
 
+### PWA 技術資源
+- [PWA Builder](https://www.pwabuilder.com) - PWA 開發工具
+- [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) - PWA 配置文檔
+- [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) - Service Worker 文檔
+
 ### 延伸閱讀
 - 數位邏輯設計教科書
 - 布林代數與邏輯最小化理論
 - VLSI 設計最佳化技術
+- **新增**：Progressive Web Apps 開發指南
 
 ---
 
 **開發團隊**：元智大學 電機系甲組大一B班 顏逢佐 個人開發  
 **最後更新**：2024年12月  
-**版本**：1.0.0 
+**版本**：1.1.0 (PWA 支援版本)  
+**線上體驗**：[https://your-username.github.io/boolean-function-minimizer](https://your-username.github.io/boolean-function-minimizer) 

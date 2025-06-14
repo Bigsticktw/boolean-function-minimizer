@@ -1,34 +1,54 @@
 /**
- * Patrick Method 核心算法實現
+ * Patrick Method 核心演算法實現
  * 支援單輸出和多輸出邏輯最小化
+ * 
+ * 主要功能：
+ * 1. Quine-McCluskey 演算法生成 Prime Implicants
+ * 2. Patrick Method 求解最小覆蓋
+ * 3. 多輸出函數共享最佳化
+ * 4. 三階段成本計算系統
  */
 
 class PatrickMethod {
     constructor() {
+        // 邏輯變數陣列
         this.variables = [];
+        // Prime Implicants 清單
         this.primeImplicants = [];
+        // Minterms 清單
         this.minterms = [];
+        // Don't Care 項目清單
         this.dontCares = [];
+        // 覆蓋表 (Coverage Table)
         this.coverageTable = {};
+        // 必要 Prime Implicants (Essential PIs)
         this.essentialPIs = [];
+        // 計算步驟記錄
         this.calculationSteps = [];
+        // 共享項目清單
         this.sharedTerms = [];
     }
 
     /**
      * 解析變數字串
+     * @param {string} variableStr - 變數字串，可用逗號分隔或連續字元
+     * @returns {Array} 解析後的變數陣列
      */
     parseVariables(variableStr) {
         if (variableStr.includes(',')) {
+            // 逗號分隔格式：x,y,z
             this.variables = variableStr.split(',').map(v => v.trim());
         } else {
+            // 連續字元格式：xyz
             this.variables = variableStr.split('').map(v => v.trim());
         }
         return this.variables;
     }
 
     /**
-     * 解析Prime Implicants字串
+     * 解析 Prime Implicants 字串
+     * @param {string} piStr - PI 字串，支援多種格式
+     * @returns {Array} 解析後的 PI 陣列
      */
     parsePrimeImplicants(piStr) {
         this.primeImplicants = [];
@@ -37,8 +57,9 @@ class PatrickMethod {
         lines.forEach(line => {
             const trimmedLine = line.trim();
             if (trimmedLine.includes(':')) {
+                // 處理 "名稱: 模式" 格式
                 const [name, pattern] = trimmedLine.split(':').map(part => part.trim());
-                // 移除可能的空格和符號
+                // 移除可能的空格和非法符號，只保留 0、1、-
                 const cleanPattern = pattern.replace(/[^01-]/g, '');
                 if (cleanPattern.length > 0) {
                     this.primeImplicants.push({
@@ -48,7 +69,7 @@ class PatrickMethod {
                     });
                 }
             } else if (trimmedLine.match(/^[01-]+$/)) {
-                // 直接的pattern格式
+                // 處理直接的 pattern 格式（如：01-、-11）
                 const cleanPattern = trimmedLine.replace(/[^01-]/g, '');
                 if (cleanPattern.length > 0) {
                     this.primeImplicants.push({
@@ -64,17 +85,23 @@ class PatrickMethod {
     }
 
     /**
-     * 只生成真正的Prime Implicants（單函數模式專用）
-     * 只收集迭代合成後的產物，不包含中間層級的implicants
+     * 只生成真正的 Prime Implicants（單函數模式專用）
+     * 使用 Quine-McCluskey 演算法，只收集迭代合成後的最終產物
+     * 不包含中間層級的 implicants，確保結果為真正的 Prime Implicants
+     * 
+     * @param {Array} minterms - 目標 minterms 陣列
+     * @param {number} numVars - 變數數量
+     * @param {Array} dontCares - Don't Care 項目陣列
+     * @returns {Array} 真正的 Prime Implicants 陣列
      */
     generateOnlyTruePrimeImplicants(minterms, numVars, dontCares = []) {
         console.log(`單函數模式生成真正的Prime Implicants: minterms=[${minterms.join(',')}], numVars=${numVars}`);
         
-        // 合併 minterms 和 don't cares
+        // 合併 minterms 和 don't cares，建立完整的項目集合
         const allTerms = [...minterms, ...dontCares].map(term => parseInt(term, 10));
         const uniqueTerms = [...new Set(allTerms)].filter(term => !isNaN(term));
         
-        // 轉換為二進制表示，作為第0層
+        // 轉換為二進制表示，作為第 0 層（初始層）
         let currentLevel = uniqueTerms.map(term => {
             const binary = term.toString(2).padStart(numVars, '0');
             return {
@@ -318,7 +345,12 @@ class PatrickMethod {
     }
 
     /**
-     * 計算pattern的成本（符號數量+1）
+     * 計算 Prime Implicant 的成本
+     * 成本計算規則：
+     * - 單個 literal：成本 = 1（例如：y 的成本為 1）
+     * - 多個 literals：成本 = literal 數量 + 1（例如：x'z' 有 2 個符號，成本為 2 + 1 = 3）
+     * @param {string} pattern - PI 的二進制模式（如 "01-"）
+     * @returns {number} 計算出的成本
      */
     calculateCost(pattern) {
         let literalCount = 0;
@@ -328,8 +360,8 @@ class PatrickMethod {
             }
         }
         // 正確的成本計算：
-        // 1個literal: cost = 1 (例如：y 的成本為 1)
-        // 多個literals: cost = literal_count + 1 (例如：x'z' 有2個符號，成本為 2 + 1 = 3)
+        // 1 個 literal: cost = 1（例如：y 的成本為 1）
+        // 多個 literals: cost = literal_count + 1（例如：x'z' 有 2 個符號，成本為 2 + 1 = 3）
         if (literalCount === 1) {
             return 1;
         } else {
@@ -338,7 +370,9 @@ class PatrickMethod {
     }
 
     /**
-     * 建立覆蓋表
+     * 建立覆蓋表 (Coverage Table)
+     * 記錄每個 minterm 被哪些 Prime Implicants 覆蓋
+     * @returns {Object} 覆蓋表物件
      */
     buildCoverageTable() {
         this.coverageTable = {};
@@ -357,7 +391,9 @@ class PatrickMethod {
     }
 
     /**
-     * 找到Essential Prime Implicants
+     * 找到必要 Prime Implicants (Essential PIs)
+     * 必要 PI 是唯一覆蓋某個 minterm 的 Prime Implicant
+     * @returns {Object} 包含必要 PIs 和被覆蓋 minterms 的物件
      */
     findEssentialPIs() {
         this.essentialPIs = [];
@@ -369,7 +405,7 @@ class PatrickMethod {
                 const piIndex = coveringPIs[0];
                 if (!this.essentialPIs.includes(piIndex)) {
                     this.essentialPIs.push(piIndex);
-                    // 標記這個PI覆蓋的所有minterms
+                    // 標記這個 PI 覆蓋的所有 minterms
                     this.primeImplicants[piIndex].minterms.forEach(m => {
                         if (this.minterms.includes(m)) {
                             usedMinterms.add(m);
@@ -386,10 +422,15 @@ class PatrickMethod {
     }
 
     /**
-     * 生成Quine-McCluskey Prime Implicants
+     * 生成 Quine-McCluskey Prime Implicants
+     * 使用 Quine-McCluskey 演算法逐層合併項目，生成所有可能的 implicants
+     * @param {Array} minterms - 目標 minterms 陣列
+     * @param {number} numVars - 變數數量
+     * @param {Array} dontCares - Don't Care 項目陣列
+     * @returns {Array} 生成的 Prime Implicants 陣列
      */
     generateQuineMcCluskeyPIs(minterms, numVars, dontCares = []) {
-        console.log(`生成PI: minterms=[${minterms.join(',')}], numVars=${numVars}, dontCares=[${dontCares.join(',')}]`);
+        console.log(`生成 PI: minterms=[${minterms.join(',')}], numVars=${numVars}, dontCares=[${dontCares.join(',')}]`);
         
         // 確保所有項都是數字
         const allTerms = [...minterms, ...dontCares].map(term => parseInt(term, 10));
@@ -2224,7 +2265,12 @@ class PatrickMethod {
     }
 
     /**
-     * 貪婪算法
+     * 貪婪演算法求解 Patrick Method
+     * 使用效率分數（覆蓋數量/成本）選擇最佳的 Prime Implicants
+     * @param {Array} patrickTerms - Patrick 項目陣列
+     * @param {Array} allPIPatterns - 所有 PI 模式陣列
+     * @param {Map} allPIsByPattern - PI 模式對應表
+     * @returns {Array} 選中的 PI 陣列
      */
     greedySolution(patrickTerms, allPIPatterns, allPIsByPattern) {
         const selectedPIs = [];
@@ -2234,7 +2280,7 @@ class PatrickMethod {
             let bestPI = null;
             let bestScore = -1;
             
-            // 找到覆蓋最多未覆蓋項且效率最高的PI
+            // 找到覆蓋最多未覆蓋項且效率最高的 PI
             allPIPatterns.forEach(pattern => {
                 if (selectedPIs.includes(pattern)) return;
                 
@@ -2247,7 +2293,7 @@ class PatrickMethod {
                 
                 if (coveredCount > 0) {
                     const cost = allPIsByPattern.get(pattern).cost;
-                    const score = coveredCount / cost; // 效率分數
+                    const score = coveredCount / cost; // 計算效率分數：覆蓋數量除以成本
                     
                     if (score > bestScore) {
                         bestScore = score;
@@ -2259,14 +2305,14 @@ class PatrickMethod {
             if (bestPI) {
                 selectedPIs.push(bestPI);
                 
-                // 更新覆蓋狀態
+                // 更新覆蓋狀態，標記被選中 PI 覆蓋的項目
                 uncoveredTerms.forEach(termInfo => {
                     if (termInfo.term.includes(bestPI)) {
                         termInfo.covered = true;
                     }
                 });
             } else {
-                break; // 無法找到更多覆蓋
+                break; // 無法找到更多覆蓋項目，結束迴圈
             }
         }
         
@@ -2274,16 +2320,23 @@ class PatrickMethod {
     }
     
     /**
-     * 局部優化
+     * 局部最佳化演算法
+     * 嘗試移除解決方案中不必要的 Prime Implicants，以降低總成本
+     * @param {Array} solution - 當前解決方案
+     * @param {Array} patrickTerms - Patrick 項目陣列
+     * @param {Array} allPIPatterns - 所有 PI 模式陣列
+     * @param {Map} allPIsByPattern - PI 模式對應表
+     * @returns {Array} 最佳化後的解決方案
      */
     localOptimize(solution, patrickTerms, allPIPatterns, allPIsByPattern) {
         const optimized = solution.slice();
         
-        // 嘗試移除不必要的PI
+        // 從後往前嘗試移除不必要的 PI
         for (let i = optimized.length - 1; i >= 0; i--) {
             const testSolution = optimized.slice();
             testSolution.splice(i, 1);
             
+            // 檢查移除該 PI 後解決方案是否仍然有效
             if (this.isValidSolution(testSolution, patrickTerms)) {
                 optimized.splice(i, 1);
             }
@@ -2292,15 +2345,23 @@ class PatrickMethod {
         return optimized;
     }
     
-    /**
-     * 檢查解是否有效
+        /**
+     * 檢查解決方案是否有效
+     * 驗證每個 Patrick 項目都至少被一個選中的 PI 覆蓋
+     * @param {Array} solution - 解決方案陣列
+     * @param {Array} patrickTerms - Patrick 項目陣列
+     * @returns {boolean} 解決方案是否有效
      */
     isValidSolution(solution, patrickTerms) {
         return patrickTerms.every(term => term.some(pi => solution.includes(pi)));
     }
-    
+
     /**
-     * 計算解的成本
+     * 計算解決方案的總成本
+     * 累加所有選中 Prime Implicants 的成本
+     * @param {Array} solution - 解決方案陣列
+     * @param {Map} allPIsByPattern - PI 模式對應表
+     * @returns {number} 總成本
      */
     calculateSolutionCost(solution, allPIsByPattern) {
         return solution.reduce((total, pattern) => {
@@ -2309,7 +2370,11 @@ class PatrickMethod {
     }
 
     /**
-     * 從聯合解生成系統解
+     * 從聯合解決方案生成系統解決方案
+     * 將聯合最佳化的結果分解為各個函數的具體解決方案
+     * @param {Array} jointSolutions - 聯合解決方案陣列
+     * @param {Object} normalizedMinterms - 標準化的 minterms 對應表
+     * @returns {Array} 系統解決方案陣列
      */
     generateSystemSolutionsFromJoint(jointSolutions, normalizedMinterms) {
         const systemSolutions = [];
@@ -2319,11 +2384,11 @@ class PatrickMethod {
             const systemSolution = {};
             
             Object.entries(normalizedMinterms).forEach(([funcName, minterms]) => {
-                console.log(`\n處理函數 ${funcName}，目標minterms: [${minterms.join(',')}]`);
+                console.log(`\n處理函數 ${funcName}，目標 minterms: [${minterms.join(',')}]`);
                 const functionPIs = [];
                 
                 solution.forEach(pattern => {
-                    // 檢查這個PI是否覆蓋這個函數的minterms
+                    // 檢查這個 PI 是否覆蓋這個函數的 minterms
                     const piInfo = this.getAllPIsByPattern().get(pattern);
                     if (piInfo && piInfo.usedBy.includes(funcName)) {
                         const coveredMinterms = piInfo.minterms.filter(m => minterms.includes(m));
@@ -2339,11 +2404,11 @@ class PatrickMethod {
                 });
                 
                 if (functionPIs.length > 0) {
-                    console.log(`${funcName} 初始PI數量: ${functionPIs.length}`);
+                    console.log(`${funcName} 初始 PI 數量: ${functionPIs.length}`);
                     
-                    // 應用Stage 2的冗餘移除邏輯
+                    // 應用 Stage 2 的冗餘移除邏輯
                     const optimizedPIs = this.removeRedundantPIsForStage2(functionPIs, minterms);
-                    console.log(`${funcName} Stage 2優化後PI數量: ${optimizedPIs.length}`);
+                    console.log(`${funcName} Stage 2 最佳化後 PI 數量: ${optimizedPIs.length}`);
                     
                     systemSolution[funcName] = {
                         pis: optimizedPIs,
@@ -2362,14 +2427,16 @@ class PatrickMethod {
     }
 
     /**
-     * 獲取所有PI的引用（用於聯合解決方案）
+     * 獲取所有 Prime Implicants 的引用（用於聯合解決方案）
+     * @returns {Map} PI 模式對應表
      */
     getAllPIsByPattern() {
         return this._allPIsByPattern || new Map();
     }
 
     /**
-     * 設置所有PI的引用
+     * 設置所有 Prime Implicants 的引用
+     * @param {Map} allPIsByPattern - PI 模式對應表
      */
     setAllPIsByPattern(allPIsByPattern) {
         this._allPIsByPattern = allPIsByPattern;
@@ -2379,7 +2446,9 @@ class PatrickMethod {
 }
 
 /**
- * 多輸出Patrick Method擴展類
+ * 多輸出 Patrick Method 擴展類
+ * 這是對外的主要接口類，與網頁版本相容
+ * 提供簡化的調用接口，內部調用父類的完整實現
  */
 class MultipleOutputPatrick extends PatrickMethod {
     constructor() {
@@ -2388,20 +2457,25 @@ class MultipleOutputPatrick extends PatrickMethod {
 
     /**
      * 執行多輸出最佳化的主要方法
-     * 這是對外的主要接口，與web版本兼容
+     * 這是對外的主要接口，與網頁版本相容
+     * @param {Object} mintermsByFunction - 各函數的 minterms 對應表
+     * @param {number} numVars - 變數數量  
+     * @param {Array} dontCares - Don't Care 項目陣列
+     * @returns {Object} 最佳化結果
      */
     executeMultipleOutput(mintermsByFunction, numVars, dontCares = []) {
         return super.executeMultipleOutput(mintermsByFunction, numVars, dontCares);
     }
 }
 
-// 如果在瀏覽器環境中，將類加到全域作用域
+// ==================== 模組導出設定 ====================
+// 如果在瀏覽器環境中，將類別加到全域作用域
 if (typeof window !== 'undefined') {
     window.PatrickMethod = PatrickMethod;
     window.MultipleOutputPatrick = MultipleOutputPatrick;
 }
 
-// 如果在Node.js環境中，導出模組
+// 如果在 Node.js 環境中，導出模組
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { PatrickMethod, MultipleOutputPatrick };
 }
