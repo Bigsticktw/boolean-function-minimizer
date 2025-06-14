@@ -712,6 +712,24 @@
         
         /* 強制修復 PI 模式手機版問題 */
         @media (max-width: 768px) {
+            /* 強制修復 PI 模式底部按鈕組 */
+            #piInputContainer > div[style*="display: flex"] {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 8px !important;
+                margin-top: 15px !important;
+            }
+            
+            #piInputContainer > div[style*="display: flex"] .btn {
+                width: 100% !important;
+                margin: 0 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                box-sizing: border-box !important;
+            }
+            
             /* 強制修復函數標題區域 */
             .function-pi-group .function-pi-header {
                 display: flex !important;
@@ -728,6 +746,9 @@
             .function-pi-group .function-pi-header .btn-remove {
                 width: 100% !important;
                 margin: 0 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
             }
             
             /* 強制修復 PI 輸入行 */
@@ -735,16 +756,57 @@
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: stretch !important;
+                gap: 5px !important;
+            }
+            
+            .function-pi-inputs .pi-input-row .pi-label {
+                display: block !important;
+                margin-bottom: 4px !important;
+                font-weight: bold !important;
             }
             
             .function-pi-inputs .pi-input-row .pi-input {
                 width: 100% !important;
-                margin: 5px 0 !important;
+                margin: 0 !important;
+                box-sizing: border-box !important;
             }
             
             .function-pi-inputs .pi-input-row .btn {
                 width: 100% !important;
-                margin: 5px 0 !important;
+                margin: 0 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+        }
+        
+        /* 超強制修復 PI 模式問題 - 使用更高優先級 */
+        @media (max-width: 768px) {
+            /* 針對 PI 模式底部按鈕的超強制修復 */
+            div[style*="display: flex"][style*="gap: 10px"] {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 8px !important;
+            }
+            
+            div[style*="display: flex"][style*="gap: 10px"] button {
+                width: 100% !important;
+                margin: 0 !important;
+                flex: none !important;
+            }
+            
+            /* 針對所有 PI 相關按鈕的超強制修復 */
+            .btn[onclick*="addFunctionPIGroup"],
+            .btn[onclick*="addPIToCurrentFunction"],
+            .btn[onclick*="generateFunctionDefinitions"],
+            .btn[onclick*="removeFunctionPIGroup"],
+            .btn[onclick*="removePIFromFunction"] {
+                width: 100% !important;
+                margin: 0 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                box-sizing: border-box !important;
             }
         }
         
@@ -814,6 +876,18 @@
             .radio-group {
                 padding: 8px 12px;
                 font-size: 0.85em;
+            }
+            
+            /* 480px 以下的 PI 模式超強制修復 */
+            div[style*="display: flex"] {
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+            
+            div[style*="display: flex"] .btn {
+                width: 100% !important;
+                margin: 2px 0 !important;
+                flex: none !important;
             }
         }
     </style>
