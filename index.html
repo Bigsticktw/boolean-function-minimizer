@@ -560,14 +560,24 @@
             
             .function-pi-header {
                 padding: 10px 12px;
-                flex-wrap: wrap;
+                flex-direction: column;
                 gap: 8px;
+                align-items: stretch;
             }
             
             .function-pi-title {
                 font-size: 0.9em;
-                flex: 1;
-                min-width: 200px;
+                flex: none;
+                min-width: auto;
+                width: 100%;
+                text-align: left;
+            }
+            
+            .btn-remove {
+                width: 100%;
+                margin-top: 5px;
+                font-size: 0.8em;
+                padding: 8px 12px;
             }
             
             .function-pi-inputs {
@@ -575,14 +585,29 @@
             }
             
             .pi-input-row {
-                flex-wrap: wrap;
+                flex-direction: column;
                 gap: 8px;
-                margin-bottom: 8px;
+                margin-bottom: 12px;
+                align-items: stretch;
             }
             
             .pi-label {
-                min-width: 40px;
+                min-width: auto;
                 font-size: 0.85em;
+                width: 100%;
+            }
+            
+            .pi-input-row input {
+                width: 100% !important;
+                margin: 0 !important;
+                box-sizing: border-box;
+            }
+            
+            .pi-input-row .btn {
+                width: 100%;
+                margin-top: 5px;
+                font-size: 0.8em;
+                padding: 8px 12px;
             }
             
             .function-input-row {
@@ -651,16 +676,23 @@
             }
             
             /* PI 輸入區域的按鈕組 */
-            .function-pi-inputs + div {
-                flex-wrap: wrap;
+            #multiplePIInputs + div {
+                display: flex;
+                flex-direction: column;
                 gap: 8px;
+                margin-top: 15px;
             }
             
-            .function-pi-inputs + div .btn {
-                flex: 1;
-                min-width: 120px;
+            #multiplePIInputs + div .btn {
+                flex: none;
+                width: 100%;
+                min-width: auto;
                 font-size: 0.8em;
-                padding: 8px 12px;
+                padding: 10px 15px;
+                margin: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
         
@@ -705,9 +737,25 @@
                 font-size: 0.75em;
             }
             
-            .function-pi-inputs + div .btn {
-                min-width: 100px;
+            #multiplePIInputs + div .btn {
+                min-width: auto;
                 font-size: 0.75em;
+                padding: 8px 12px;
+                width: 100%;
+            }
+            
+            .function-pi-header {
+                flex-direction: column;
+                gap: 6px;
+            }
+            
+            .btn-remove {
+                font-size: 0.7em;
+                padding: 6px 10px;
+            }
+            
+            .pi-input-row .btn {
+                font-size: 0.7em;
                 padding: 6px 10px;
             }
             
