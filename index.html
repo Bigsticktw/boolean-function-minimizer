@@ -472,27 +472,248 @@
             line-height: 1.4;
         }
         
+        /* 手機版響應式設計 */
         @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+                margin-bottom: 8px;
+            }
+            
+            .header p {
+                font-size: 0.95em;
+            }
+            
             .main-content {
                 grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            
+            .input-section, .output-section {
+                padding: 20px 15px;
+            }
+            
+            .input-section {
+                border-right: none;
+                border-bottom: 1px solid #dee2e6;
+            }
+            
+            .section-title {
+                font-size: 1.3em;
+                margin-bottom: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
             }
             
             .input-mode-selector {
                 flex-direction: column;
+                gap: 10px;
+            }
+            
+            .radio-group {
+                padding: 10px 15px;
+                font-size: 0.9em;
             }
             
             .variable-input {
                 grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95em;
+                letter-spacing: 0.5px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 8px;
+                margin: 15px 0;
+            }
+            
+            .button-group .btn {
+                flex: none;
+                min-width: auto;
+                width: 100%;
+                margin: 0;
+            }
+            
+            .btn-secondary {
+                font-size: 0.85em;
+                padding: 10px 15px;
+                margin-right: 0;
+            }
+            
+            .function-pi-header {
+                padding: 10px 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .function-pi-title {
+                font-size: 0.9em;
+                flex: 1;
+                min-width: 200px;
+            }
+            
+            .function-pi-inputs {
+                padding: 12px;
+            }
+            
+            .pi-input-row {
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 8px;
+            }
+            
+            .pi-label {
+                min-width: 40px;
+                font-size: 0.85em;
+            }
+            
+            .function-input-row {
+                padding: 12px;
+                margin-bottom: 12px;
             }
             
             .function-inputs {
                 flex-direction: column;
+                gap: 10px;
                 align-items: stretch;
             }
             
+            .function-input-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
             .function-input {
-                width: 100px !important;
-                margin: 2px !important;
+                min-width: auto !important;
+                width: 100% !important;
+                font-size: 0.9em;
+                margin: 0 !important;
+                box-sizing: border-box;
+            }
+            
+            .function-input-label {
+                font-size: 0.85em;
+            }
+            
+            .example-section {
+                margin-top: 15px;
+            }
+            
+            .example-title {
+                font-size: 1em;
+                padding: 8px 12px;
+            }
+            
+            .example-content {
+                padding: 12px;
+                font-size: 0.8em;
+                line-height: 1.4;
+            }
+            
+            .loading {
+                padding: 20px 15px;
+            }
+            
+            .result-area {
+                padding: 15px;
+            }
+            
+            .progress-details {
+                margin-top: 15px;
+            }
+            
+            .progress-box {
+                padding: 12px;
+            }
+            
+            .progress-box h4 {
+                font-size: 1em;
+                margin-bottom: 8px;
+            }
+            
+            /* PI 輸入區域的按鈕組 */
+            .function-pi-inputs + div {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            
+            .function-pi-inputs + div .btn {
+                flex: 1;
+                min-width: 120px;
+                font-size: 0.8em;
+                padding: 8px 12px;
+            }
+        }
+        
+        /* 更小螢幕的額外優化 */
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                border-radius: 8px;
+            }
+            
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .header p {
+                font-size: 0.9em;
+            }
+            
+            .input-section, .output-section {
+                padding: 15px 10px;
+            }
+            
+            .section-title {
+                font-size: 1.2em;
+            }
+            
+            .btn {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            
+            .function-pi-title {
+                font-size: 0.85em;
+                min-width: 150px;
+            }
+            
+            .example-content {
+                font-size: 0.75em;
+            }
+            
+            .function-pi-inputs + div .btn {
+                min-width: 100px;
+                font-size: 0.75em;
+                padding: 6px 10px;
+            }
+            
+            .radio-group {
+                padding: 8px 12px;
+                font-size: 0.85em;
             }
         }
     </style>
