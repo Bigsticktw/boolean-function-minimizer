@@ -560,24 +560,27 @@
             
             .function-pi-header {
                 padding: 10px 12px;
-                flex-direction: column;
+                flex-direction: column !important;
                 gap: 8px;
-                align-items: stretch;
+                align-items: stretch !important;
+                justify-content: flex-start !important;
             }
             
             .function-pi-title {
                 font-size: 0.9em;
-                flex: none;
-                min-width: auto;
-                width: 100%;
+                flex: none !important;
+                min-width: auto !important;
+                width: 100% !important;
                 text-align: left;
+                margin-bottom: 8px;
             }
             
-            .btn-remove {
-                width: 100%;
-                margin-top: 5px;
+            .function-pi-header .btn-remove {
+                width: 100% !important;
+                margin: 0 !important;
                 font-size: 0.8em;
                 padding: 8px 12px;
+                flex: none !important;
             }
             
             .function-pi-inputs {
@@ -585,29 +588,32 @@
             }
             
             .pi-input-row {
-                flex-direction: column;
+                flex-direction: column !important;
                 gap: 8px;
                 margin-bottom: 12px;
-                align-items: stretch;
+                align-items: stretch !important;
             }
             
             .pi-label {
-                min-width: auto;
+                min-width: auto !important;
                 font-size: 0.85em;
                 width: 100%;
+                margin-bottom: 5px;
             }
             
-            .pi-input-row input {
+            .pi-input-row .pi-input {
                 width: 100% !important;
                 margin: 0 !important;
                 box-sizing: border-box;
+                flex: none !important;
             }
             
             .pi-input-row .btn {
-                width: 100%;
-                margin-top: 5px;
+                width: 100% !important;
+                margin: 5px 0 0 0 !important;
                 font-size: 0.8em;
                 padding: 8px 12px;
+                flex: none !important;
             }
             
             .function-input-row {
@@ -676,23 +682,69 @@
             }
             
             /* PI 輸入區域的按鈕組 */
-            #multiplePIInputs + div {
-                display: flex;
-                flex-direction: column;
-                gap: 8px;
+            #piInputContainer div[style*="display: flex"] {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 8px !important;
                 margin-top: 15px;
             }
             
-            #multiplePIInputs + div .btn {
-                flex: none;
-                width: 100%;
-                min-width: auto;
+            #piInputContainer div[style*="display: flex"] .btn {
+                flex: none !important;
+                width: 100% !important;
+                min-width: auto !important;
                 font-size: 0.8em;
                 padding: 10px 15px;
-                margin: 0;
+                margin: 0 !important;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                box-sizing: border-box;
+            }
+            
+            /* 特別針對三個按鈕 */
+            .btn-add, .btn-secondary, .btn-info {
+                width: 100% !important;
+                margin: 0 !important;
+                margin-bottom: 8px !important;
+            }
+        }
+        
+        /* 強制修復 PI 模式手機版問題 */
+        @media (max-width: 768px) {
+            /* 強制修復函數標題區域 */
+            .function-pi-group .function-pi-header {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                padding: 10px !important;
+            }
+            
+            .function-pi-group .function-pi-header .function-pi-title {
+                width: 100% !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .function-pi-group .function-pi-header .btn-remove {
+                width: 100% !important;
+                margin: 0 !important;
+            }
+            
+            /* 強制修復 PI 輸入行 */
+            .function-pi-inputs .pi-input-row {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+            }
+            
+            .function-pi-inputs .pi-input-row .pi-input {
+                width: 100% !important;
+                margin: 5px 0 !important;
+            }
+            
+            .function-pi-inputs .pi-input-row .btn {
+                width: 100% !important;
+                margin: 5px 0 !important;
             }
         }
         
