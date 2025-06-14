@@ -23,11 +23,11 @@
 
 ### 📱 PWA 功能
 - **🔗 線上使用**：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)
-- **📱 安裝到設備**：支援安裝到桌面和手機主畫面
+- **📱 Android 安裝**：支援安裝到 Android 手機主畫面
 - **⚡ 離線使用**：安裝後可在無網路環境下使用
 - **🚀 快速啟動**：從主畫面直接啟動，載入速度快
 - **🔄 自動更新**：應用更新時自動同步最新版本
-- **🌍 跨平台支援**：支援 Windows、macOS、Linux、Android、iOS
+- **🌐 全平台網頁版**：所有平台都可使用完整網頁版功能
 
 ### 🆕 最新功能
 - **📤 分享結果**：一鍵分享計算結果到其他應用
@@ -54,15 +54,20 @@
 **直接訪問：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)**
 
 ### 📱 PWA 安裝
-1. **桌面瀏覽器**：
-   - 訪問 [線上版本](https://bigsticktw.github.io/boolean-function-minimizer/)
-   - 點擊地址欄的「安裝」圖標 📥
-   - 或點擊瀏覽器選單中的「安裝應用程式」
 
-2. **手機瀏覽器**：
+> **📱 目前僅支援 Android 設備安裝**  
+> iOS、Windows、macOS 等平台的 PWA 安裝功能正在開發中，敬請期待！
+
+1. **Android 手機瀏覽器**：
+   - 使用 Chrome、Edge 或其他支援 PWA 的瀏覽器
    - 訪問 [線上版本](https://bigsticktw.github.io/boolean-function-minimizer/)
    - 點擊「加入主畫面」或「安裝應用程式」
-   - 應用圖標將出現在主畫面上
+   - 應用圖標將出現在主畫面上，可離線使用
+
+2. **桌面瀏覽器**（僅網頁版）：
+   - 訪問 [線上版本](https://bigsticktw.github.io/boolean-function-minimizer/)
+   - 可正常使用所有功能，但暫不支援安裝到桌面
+   - 建議加入書籤以便快速訪問
 
 3. **快捷啟動**：
    - PI 模式：[https://bigsticktw.github.io/boolean-function-minimizer/?mode=pi](https://bigsticktw.github.io/boolean-function-minimizer/?mode=pi)
@@ -85,8 +90,9 @@
 
 ### 系統需求
 - **網頁版**：現代網頁瀏覽器（Chrome 88+、Firefox 85+、Safari 14+、Edge 88+）
-- **PWA版**：支援 PWA 的瀏覽器
+- **Android PWA**：Android 設備 + Chrome/Edge 瀏覽器
 - **技術要求**：支援 JavaScript ES6+、Service Worker
+- **其他平台**：僅支援網頁版，功能完整但無法安裝
 
 ## 📖 使用指南
 
@@ -196,7 +202,7 @@ F1 = c'd' + b'd + ac' + bc
 
 ## 📊 性能指標
 
-### 算法效能
+### 算法效能(單函數輸出情況)
 - **小規模問題**（≤4變數）：< 100ms
 - **中規模問題**（5-6變數）：< 1s
 - **大規模問題**（7+變數）：< 10s（視複雜度而定）
@@ -271,10 +277,6 @@ boolean-function-minimizer/
 2. 創建功能分支
 3. 提交變更
 4. 發起 Pull Request
-
-## 📄 授權條款
-
-本項目採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 文件
 
 ## 🙏 致謝
 
