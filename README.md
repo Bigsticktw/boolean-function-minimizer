@@ -1,10 +1,17 @@
-# 多輸出布林函數最小化工具
+# 🧮 多輸出布林函數最小化工具
+
+## 🌐 線上版本
+**🚀 立即使用：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)**
+
+[![PWA Ready](https://img.shields.io/badge/PWA-Ready-brightgreen.svg)](https://bigsticktw.github.io/boolean-function-minimizer/)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-blue.svg)](https://bigsticktw.github.io/boolean-function-minimizer/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## 📋 項目簡介
 
 這是一個基於 **Patrick Method** 演算法的多輸出布林函數最小化工具，專為邏輯電路設計和布林代數最佳化而開發。該工具支援多種輸入格式，能夠自動找到最佳的邏輯表達式，並通過硬體共享最小化總體成本。
 
-**🚀 現已支援 PWA (Progressive Web App) 和 Android APK 部署！**
+**🚀 現已支援 PWA (Progressive Web App) 功能，可安裝到桌面和手機！**
 
 ## ✨ 功能特色
 
@@ -15,11 +22,19 @@
 - **智能算法選擇**：根據問題規模自動選擇回溯搜索或窮舉搜索
 
 ### 📱 PWA 功能
-- **離線使用**：安裝後可在無網路環境下使用
-- **原生體驗**：類似原生應用的使用體驗
-- **快速啟動**：從主畫面直接啟動，載入速度快
-- **自動更新**：應用更新時自動同步最新版本
-- **跨平台支援**：支援 Windows、macOS、Linux、Android、iOS
+- **🔗 線上使用**：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)
+- **📱 安裝到設備**：支援安裝到桌面和手機主畫面
+- **⚡ 離線使用**：安裝後可在無網路環境下使用
+- **🚀 快速啟動**：從主畫面直接啟動，載入速度快
+- **🔄 自動更新**：應用更新時自動同步最新版本
+- **🌍 跨平台支援**：支援 Windows、macOS、Linux、Android、iOS
+
+### 🆕 最新功能
+- **📤 分享結果**：一鍵分享計算結果到其他應用
+- **📋 複製結果**：快速複製結果到剪貼板
+- **📁 檔案拖放**：支援拖放 `.txt` 和 `.json` 檔案載入數據
+- **🔗 URL 參數**：支援 `?mode=pi` 和 `?mode=minterm` 直接切換模式
+- **⚡ 快捷方式**：安裝後可直接啟動特定輸入模式
 
 ### 📊 輸入模式
 1. **Prime Implicants 模式**：直接輸入已知的 Prime Implicants
@@ -35,33 +50,43 @@
 
 ## 🚀 快速開始
 
-### 線上使用
-直接訪問：[https://your-username.github.io/boolean-function-minimizer](https://your-username.github.io/boolean-function-minimizer)
+### 🌐 線上使用（推薦）
+**直接訪問：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)**
 
-### PWA 安裝
+### 📱 PWA 安裝
 1. **桌面瀏覽器**：
-   - 訪問網站後，點擊地址欄的「安裝」圖標
+   - 訪問 [線上版本](https://bigsticktw.github.io/boolean-function-minimizer/)
+   - 點擊地址欄的「安裝」圖標 📥
    - 或點擊瀏覽器選單中的「安裝應用程式」
 
 2. **手機瀏覽器**：
-   - 訪問網站後，點擊「加入主畫面」
+   - 訪問 [線上版本](https://bigsticktw.github.io/boolean-function-minimizer/)
+   - 點擊「加入主畫面」或「安裝應用程式」
    - 應用圖標將出現在主畫面上
 
-### Android APK 安裝
-1. 下載 APK 文件（從 GitHub Releases 或 PWA Builder 生成）
-2. 在 Android 設備上安裝 APK
-3. 享受原生應用體驗
+3. **快捷啟動**：
+   - PI 模式：[https://bigsticktw.github.io/boolean-function-minimizer/?mode=pi](https://bigsticktw.github.io/boolean-function-minimizer/?mode=pi)
+   - Minterm 模式：[https://bigsticktw.github.io/boolean-function-minimizer/?mode=minterm](https://bigsticktw.github.io/boolean-function-minimizer/?mode=minterm)
 
-### 本地部署
-1. 下載項目文件到本地
-2. 用瀏覽器打開 `index.html`
-3. 開始使用！
+### 💻 本地部署
+1. 克隆或下載項目文件
+2. 使用 HTTP 服務器運行（避免 CORS 問題）：
+   ```bash
+   # Python 3
+   python -m http.server 8000
+   
+   # Node.js
+   npx serve .
+   
+   # PHP
+   php -S localhost:8000
+   ```
+3. 訪問 `http://localhost:8000`
 
 ### 系統需求
-- **網頁版**：現代網頁瀏覽器（Chrome、Firefox、Safari、Edge）
+- **網頁版**：現代網頁瀏覽器（Chrome 88+、Firefox 85+、Safari 14+、Edge 88+）
 - **PWA版**：支援 PWA 的瀏覽器
-- **Android APK**：Android 5.0+ (API Level 21+)
-- **技術要求**：支援 JavaScript ES6+
+- **技術要求**：支援 JavaScript ES6+、Service Worker
 
 ## 📖 使用指南
 
@@ -93,8 +118,8 @@ a,b,c,d
 
 **輸出函數定義**（可選）：
 ```
-F1 = Σm(2,3,6,7)
-F2 = Σm(1,4,5)
+F1: 2,3,6,7
+F2: 1,4,5
 ```
 
 #### Minterms 模式
@@ -112,311 +137,158 @@ F2 = Σm(1,4,5)
 ```
 
 ### 3. 執行最佳化
-點擊「執行多輸出最佳化」按鈕，系統將：
+點擊「🚀 執行多輸出最佳化」按鈕，系統將：
 1. 解析輸入資料
 2. 生成或處理 Prime Implicants
 3. 執行 Patrick Method 演算法
 4. 計算最佳共享方案
 5. 顯示詳細結果
 
-### 4. 結果解讀
+### 4. 結果操作
+- **📤 分享結果**：將結果分享到其他應用
+- **📋 複製結果**：複製完整結果到剪貼板
+- **📁 檔案操作**：拖放檔案載入數據
 
-#### 最佳化結果
+### 5. 結果解讀
+
+#### 最佳化結果範例
 ```
-🔹 解決方案:
-F1 = x'z' + yz'
-F2 = x'y + xy'
+🔹 解決方案 1:
+F1 = b'c' + bd' + ac' + cd
+使用的PI: --11, -00-, -1-0, 1-0-
+共享成本: 12 個閘級
 
-使用的PI: 01-, -11, 0-1, 1-0
-共享成本: 18 個閘級
+🔹 解決方案 2:
+F1 = c'd' + b'd + ac' + bc
+使用的PI: --00, -0-1, -11-, 1-0-
+共享成本: 12 個閘級
 ```
 
 #### 成本分析
 ```
 💰 成本分析
-成本計算方式：每個項的成本 = 符號數量 + 1
-例如：x'z' 有 2 個符號，成本為 2 + 1 = 3
+成本計算方式：1個literal成本=1，多個literals成本=literal數量+1
+例如：y 有 1 個符號，成本為 1；x'z' 有 2 個符號，成本為 2 + 1 = 3
 
-個別最佳化總成本: 24
-共享最佳化總成本: 18
-💡 節省成本: 6 (25.0%)
+個別最佳化總成本: 12
+共享最佳化總成本: 12
 ```
 
-## 🌐 部署指南
+## 🛠️ 技術架構
 
-### GitHub Pages 部署
-1. **創建 GitHub 倉庫**：
-   ```bash
-   # 創建新倉庫 boolean-function-minimizer
-   ```
-
-2. **上傳文件**：
-   - `index.html` - 主要網頁
-   - `patrick-method-core.js` - 核心算法
-   - `manifest.json` - PWA 配置
-   - `sw.js` - Service Worker
-   - `README.md` - 項目說明
-
-3. **啟用 GitHub Pages**：
-   - 進入倉庫設置 → Pages
-   - 選擇 Source: Deploy from a branch
-   - 選擇 Branch: main
-   - 點擊 Save
-
-4. **訪問網站**：
-   - URL: `https://your-username.github.io/boolean-function-minimizer`
-
-### PWA Builder APK 生成
-1. **訪問 PWA Builder**：
-   - 前往 [https://www.pwabuilder.com](https://www.pwabuilder.com)
-
-2. **輸入網站 URL**：
-   - 輸入你的 GitHub Pages URL
-   - 點擊「Start」
-
-3. **驗證 PWA**：
-   - 系統會自動檢查 PWA 配置
-   - 確保所有必需項目都通過驗證
-
-4. **生成 APK**：
-   - 選擇「Android」平台
-   - 點擊「Generate Package」
-   - 下載生成的 APK 文件
-
-### 其他部署選項
-- **Netlify**：拖拽文件夾即可部署
-- **Vercel**：連接 GitHub 自動部署
-- **Firebase Hosting**：Google 的靜態網站託管
-
-## 📱 PWA 技術特色
-
-### Service Worker 功能
-- **離線緩存**：核心文件自動緩存，離線可用
-- **更新策略**：Cache First 策略，確保快速載入
-- **版本控制**：自動管理緩存版本，支援熱更新
-
-### Manifest 配置
-- **應用資訊**：完整的應用名稱、描述、圖標
-- **顯示模式**：Standalone 模式，提供原生應用體驗
-- **主題配色**：統一的視覺風格
-- **啟動配置**：優化的啟動體驗
-
-### 跨平台兼容性
-- **桌面系統**：Windows、macOS、Linux
-- **移動系統**：Android、iOS
-- **瀏覽器**：Chrome、Firefox、Safari、Edge
-
-## 🔧 技術實現
+### 前端技術
+- **HTML5**：語義化標記和現代 Web 標準
+- **CSS3**：響應式設計和現代視覺效果
+- **JavaScript ES6+**：模組化程式設計和現代語法
+- **PWA**：Service Worker、Web App Manifest
 
 ### 核心算法
+- **Quine-McCluskey**：Prime Implicants 生成
+- **Patrick Method**：最小覆蓋求解
+- **回溯搜索**：最佳化解空間探索
+- **動態規劃**：成本計算最佳化
 
-#### Patrick Method 三階段流程
-1. **Stage 1 - PI 生成與基本求解**：
-   - 使用 Quine-McCluskey 方法生成 Prime Implicants
-   - 建立覆蓋表 (Coverage Table)
-   - 找出必要 Prime Implicants (Essential PIs)
+### PWA 特性
+- **Service Worker**：離線緩存和更新管理
+- **Web App Manifest**：應用配置和圖標
+- **Cache API**：智能緩存策略
+- **Background Sync**：背景同步（未來功能）
 
-2. **Stage 2 - 各函數獨立冗餘移除**：
-   - 對每個函數獨立進行冗餘 PI 移除
-   - 應用特殊優化規則（如用 y 取代 yz'+x'y）
-   - 確保每個函數達到局部最佳
+## 📊 性能指標
 
-3. **Stage 3 - Patrick 共享成本計算**：
-   - 計算跨函數的 PI 共享效益
-   - 應用 Patrick 共享成本公式：`base_cost + usage_count - 1`
-   - 找到全域最佳解
+### 算法效能
+- **小規模問題**（≤4變數）：< 100ms
+- **中規模問題**（5-6變數）：< 1s
+- **大規模問題**（7+變數）：< 10s（視複雜度而定）
 
-#### 成本計算公式
-- **單個 literal**：成本 = 1
-- **多個 literals**：成本 = literal_count + 1
-- **共享 PI**：成本 = 基礎成本 + 使用次數 - 1
+### PWA 性能
+- **首次載入**：< 2s
+- **重複訪問**：< 500ms（緩存）
+- **離線啟動**：< 300ms
+- **安裝大小**：< 1MB
 
-#### 算法選擇策略
-- **PI 數量 ≤ 20**：使用窮舉搜索（三階段成本計算）
-- **PI 數量 > 20**：使用回溯搜索（簡化成本計算）
-
-### 技術架構
-
-#### 前端 (index.html)
-- **響應式設計**：支援各種螢幕尺寸
-- **動態輸入界面**：支援多函數動態添加/移除
-- **即時驗證**：輸入格式檢查和錯誤提示
-- **結果視覺化**：清晰的結果展示和成本分析
-
-#### 後端 (patrick-method-core.js)
-- **模組化設計**：清晰的類別結構和方法分離
-- **算法最佳化**：多層剪枝和智能搜索策略
-- **錯誤處理**：完善的異常捕獲和處理機制
-- **跨平台支援**：同時支援瀏覽器和 Node.js 環境
-
-## 📊 範例案例
-
-### 案例 1：三變數雙函數最佳化
-
-**輸入**：
-- 變數：`x,y,z`
-- F1 = Σm(2,3,6,7)
-- F2 = Σm(1,4,5)
-
-**輸出**：
-```
-F1 = x'z' + yz'
-F2 = x'y + xy'
-共享成本: 18 個閘級
-節省成本: 6 (25.0%)
-```
-
-### 案例 2：四變數三函數最佳化
-
-**輸入**：
-- 變數：`a,b,c,d`
-- F1 = Σm(0,2,5,7,8,10,13,15)
-- F2 = Σm(1,3,4,6,9,11,12,14)
-- F3 = Σm(0,1,6,7,8,9,14,15)
-
-**預期結果**：
-- 自動識別可共享的 Prime Implicants
-- 計算最佳共享方案
-- 提供詳細的成本分析
-
-## 🔍 算法詳解
-
-### Quine-McCluskey 方法
-1. **分組**：按照 1 的個數分組
-2. **合併**：相鄰組間尋找可合併項
-3. **迭代**：重複合併直到無法繼續
-4. **篩選**：找出真正的 Prime Implicants
-
-### Patrick Method 求解
-1. **覆蓋表建立**：建立 PI 與 Minterm 的覆蓋關係
-2. **必要 PI 識別**：找出覆蓋唯一 Minterm 的 PI
-3. **最小覆蓋求解**：使用回溯或窮舉找最小成本覆蓋
-4. **多函數最佳化**：考慮跨函數共享的全域最佳化
-
-### 成本最佳化策略
-1. **局部最佳化**：每個函數獨立最佳化
-2. **全域最佳化**：考慮函數間共享效益
-3. **剪枝策略**：多層剪枝提高搜索效率
-4. **啟發式搜索**：智能選擇搜索路徑
-
-## 🛠️ 開發資訊
+## 🔧 開發指南
 
 ### 項目結構
 ```
-final/
-├── index.html              # 主要網頁界面
-├── patrick-method-core.js   # 核心算法實現
-├── manifest.json           # PWA 配置文件
+boolean-function-minimizer/
+├── index.html              # 主要網頁
+├── patrick-method-core.js   # 核心算法
+├── manifest.json           # PWA 配置
 ├── sw.js                   # Service Worker
-└── README.md               # 項目文檔
+├── README.md              # 項目說明
+├── android/               # Android 圖標
+├── ios/                   # iOS 圖標
+├── windows11/             # Windows 圖標
+└── icons.json             # 圖標配置
 ```
 
-### PWA 文件說明
-- **manifest.json**：定義 PWA 的基本資訊、圖標、顯示模式等
-- **sw.js**：Service Worker 腳本，處理離線緩存和更新策略
-- **圖標系統**：內嵌 SVG 圖標，支援多種尺寸和用途
+### 本地開發
+1. **克隆項目**：
+   ```bash
+   git clone https://github.com/bigsticktw/boolean-function-minimizer.git
+   cd boolean-function-minimizer
+   ```
 
-### 核心類別
-- **PatrickMethod**：基礎 Patrick Method 算法類
-- **MultipleOutputPatrick**：多輸出最佳化擴展類
+2. **啟動開發服務器**：
+   ```bash
+   python -m http.server 8000
+   ```
 
-### 主要方法
-- `executeMultipleOutput()`：多輸出最佳化主入口
-- `generateQuineMcCluskeyPIs()`：Quine-McCluskey PI 生成
-- `solveJointPatrickMethod()`：聯合 Patrick Method 求解
-- `calculateThreeStagesCost()`：三階段成本計算
+3. **訪問開發版本**：
+   ```
+   http://localhost:8000
+   ```
 
-## 📈 性能特色
+### 部署更新
+1. **推送到 GitHub**：
+   ```bash
+   git add .
+   git commit -m "Update features"
+   git push origin main
+   ```
 
-### 算法效率
-- **智能剪枝**：多層剪枝策略，大幅減少搜索空間
-- **成本預估**：提前估算成本，避免無效搜索
-- **記憶化**：緩存中間結果，避免重複計算
-
-### PWA 性能優化
-- **快速載入**：Service Worker 緩存策略
-- **離線優先**：核心功能離線可用
-- **漸進增強**：基礎功能優先，增強功能漸進載入
-
-### 處理能力
-- **小規模問題**（PI ≤ 20）：使用窮舉搜索，保證最佳解
-- **大規模問題**（PI > 20）：使用回溯搜索，快速找到近似最佳解
-- **多函數支援**：支援任意數量的輸出函數
-
-## 🎓 教育價值
-
-### 學習目標
-- 理解 Patrick Method 演算法原理
-- 掌握多輸出邏輯最小化技術
-- 學習硬體共享最佳化策略
-- 體驗算法設計和最佳化過程
-- **新增**：了解 PWA 技術和現代 Web 應用開發
-
-### 適用課程
-- 數位邏輯設計
-- 計算機組織與結構
-- 算法設計與分析
-- 邏輯電路最佳化
-- **新增**：Web 應用開發、移動應用開發
-
-## 🔄 更新日誌
-
-### v1.1.0 (2024年12月)
-- ✅ 新增 PWA 支援
-- ✅ 新增 Service Worker 離線功能
-- ✅ 新增 Android APK 生成支援
-- ✅ 優化 manifest.json 配置
-- ✅ 新增部署指南和使用說明
-
-### v1.0.0 (2024年12月)
-- ✅ 完整的 Patrick Method 三階段實現
-- ✅ 多輸出布林函數最小化
-- ✅ 硬體共享成本計算
-- ✅ 響應式網頁界面
-- ✅ 多種輸入模式支援
+2. **GitHub Pages 自動部署**：
+   - 推送後自動更新線上版本
+   - 通常在 1-2 分鐘內生效
 
 ## 🤝 貢獻指南
 
-### 回報問題
-如發現 bug 或有改進建議，請：
-1. 詳細描述問題現象
-2. 提供輸入資料和預期結果
-3. 包含瀏覽器和系統資訊
-4. **新增**：說明是網頁版還是 PWA/APK 版本
+歡迎提交 Issue 和 Pull Request！
+
+### 報告問題
+- 使用 [GitHub Issues](https://github.com/bigsticktw/boolean-function-minimizer/issues)
+- 提供詳細的問題描述和重現步驟
+- 包含瀏覽器版本和操作系統資訊
 
 ### 功能建議
-歡迎提出新功能建議：
-- 新的輸入格式支援
-- 算法效能改進
-- 使用者界面優化
-- 教學功能增強
-- **新增**：PWA 功能增強、移動端優化
+- 在 Issues 中標記為 `enhancement`
+- 描述功能的用途和預期行為
+- 提供使用場景和範例
 
-## 📄 授權資訊
+### 代碼貢獻
+1. Fork 項目
+2. 創建功能分支
+3. 提交變更
+4. 發起 Pull Request
 
-本項目為教育用途開發，遵循 MIT 授權條款。
+## 📄 授權條款
 
-## 🔗 相關資源
+本項目採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 文件
 
-### 參考文獻
-- Patrick, R. L. (1956). "A Generalized Algorithm for Finding a Minimal Set of Prime Implicants"
-- Quine, W. V. (1952). "The Problem of Simplifying Truth Functions"
-- McCluskey, E. J. (1956). "Minimization of Boolean Functions"
+## 🙏 致謝
 
-### PWA 技術資源
-- [PWA Builder](https://www.pwabuilder.com) - PWA 開發工具
-- [Web App Manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest) - PWA 配置文檔
-- [Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) - Service Worker 文檔
+- **Patrick Method 演算法**：基於經典的邏輯最小化理論
+- **Quine-McCluskey 演算法**：Prime Implicants 生成的標準方法
+- **PWA 技術**：現代 Web 應用開發標準
+- **GitHub Pages**：免費的靜態網站託管服務
 
-### 延伸閱讀
-- 數位邏輯設計教科書
-- 布林代數與邏輯最小化理論
-- VLSI 設計最佳化技術
-- **新增**：Progressive Web Apps 開發指南
+## 📞 聯絡資訊
+
+- **線上工具**：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)
+- **GitHub 項目**：[https://github.com/bigsticktw/boolean-function-minimizer](https://github.com/bigsticktw/boolean-function-minimizer)
+- **問題回報**：[GitHub Issues](https://github.com/bigsticktw/boolean-function-minimizer/issues)
 
 ---
 
-**開發團隊**：元智大學 電機系甲組大一B班 顏逢佐 個人開發  
-**最後更新**：2024年12月  
-**版本**：1.1.0 (PWA 支援版本)  
-**線上體驗**：[https://your-username.github.io/boolean-function-minimizer](https://your-username.github.io/boolean-function-minimizer) 
+**🚀 立即體驗：[https://bigsticktw.github.io/boolean-function-minimizer/](https://bigsticktw.github.io/boolean-function-minimizer/)** 
